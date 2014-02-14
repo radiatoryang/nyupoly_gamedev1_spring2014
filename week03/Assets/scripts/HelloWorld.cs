@@ -3,10 +3,13 @@ using System.Collections;
 
 public class HelloWorld : MonoBehaviour {
 
+	// variables declared outside of Start() or Update() persist across frames
+	// if it doesn't say "public", then the variable is assumed to be private
 	string currentRoom = "Lobby";
 
 	// Use this for initialization
 	void Start () {
+		// Debug.Log outputs to Console tab in Unity
 		Debug.Log ( "Hello World!" );
 	}
 	
