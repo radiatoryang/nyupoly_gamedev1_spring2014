@@ -30,14 +30,26 @@ public class RigidbodyControl : MonoBehaviour {
 			transform.Rotate ( new Vector3( 0f, 5f, 0f) );
 		}
 
-		// JUMPING
-		if ( Input.GetKey (KeyCode.Space) ) 
-		{
-			GetComponent<Rigidbody>().AddForce ( new Vector3(0f, 5000f, 0f), ForceMode.Acceleration );
-		}
-
 		// new problem: how do we limit jumping to happening ONLY when you're on the ground?
 		// answer: Raycasts, which we'll cover on Thursday.
+		Ray ray = new Ray( GetComponent<Transform>().position, -Vector3.up );
+		
+		// to know where and WHAT the raycast hit, we have store that impact info
+		RaycastHit rayHit = new RaycastHit(); // blank container for info
+		
+		if ( Physics.Raycast (ray, out rayHit, 1.1f) ) 
+		{
+			// JUMPING, but only if raycast returns true
+			if ( Input.GetKey (KeyCode.Space) ) 
+			{
+				GetComponent<Rigidbody>().AddForce ( new Vector3(0f, 5000f, 0f), ForceMode.Acceleration );
+				Debug.Log ( rayHit.point ); // point, in worldspace, where the raycast hit
+				// Destroy ( rayHit.collider.gameObject );
+				rayHit.collider.renderer.material.color = Color.red;
+			}
+			
+		}
+		
 
 	}
 
